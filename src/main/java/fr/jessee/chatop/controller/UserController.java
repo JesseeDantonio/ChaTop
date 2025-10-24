@@ -12,7 +12,7 @@ public class UserController {
         return "Liste de tous les utilisateurs";
     }
 
-    // Route GET /api/locations/{id}
+    // Route GET /api/users/{id}
     @GetMapping("/{id}")
     public String getUserById(@PathVariable Long id) {
         return "Détail de l'utilisateur avec l'id " + id;
@@ -25,13 +25,13 @@ public class UserController {
         return "Utilisateur créé : " + location;
     }
 
-    // Route PUT /api/locations/{id}
+    // Route PUT /api/users/{id}
     @PutMapping("/{id}")
     public String updateUser(@PathVariable Long id, @RequestBody String location) {
         return "Utilisateur modifié : " + location;
     }
 
-    // Route DELETE /api/locations/{id}
+    // Route DELETE /api/users/{id}
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
         return "Utilisateur supprimé avec l'id " + id;
