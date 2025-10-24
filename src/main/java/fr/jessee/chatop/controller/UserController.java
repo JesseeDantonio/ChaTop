@@ -18,7 +18,7 @@ public class UserController {
         return "Détail de l'utilisateur avec l'id " + id;
     }
 
-    // Route POST /api/locations
+    // Route POST /api/users
     @PostMapping
     public String createUser(@RequestBody String location) {
         return "Utilisateur créé : " + location;
