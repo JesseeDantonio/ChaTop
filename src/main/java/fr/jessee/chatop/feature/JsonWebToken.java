@@ -1,4 +1,4 @@
-package fr.jessee.chatop.util;
+package fr.jessee.chatop.feature;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
