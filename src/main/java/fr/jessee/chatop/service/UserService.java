@@ -4,6 +4,7 @@ import fr.jessee.chatop.entity.UserEntity;
 import fr.jessee.chatop.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -32,8 +33,7 @@ public class UserService {
             existingUser.setEmail(user.getEmail());
             existingUser.setName(user.getName());
             existingUser.setPassword(user.getPassword());
-            existingUser.setCreatedAt(user.getCreatedAt());
-            existingUser.setUpdatedAt(user.getUpdatedAt());
+            existingUser.setUpdatedAt(LocalDate.now().toString());
             return userRepository.save(existingUser);
         } else {
             return null;
