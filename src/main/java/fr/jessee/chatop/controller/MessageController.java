@@ -25,6 +25,16 @@ public class MessageController {
         return messageService.getMessageById(id);
     }
 
+    @GetMapping("/user/{id}")
+    public MessageEntity getUserById(@PathVariable Long id) {
+        return messageService.getUserById(id);
+    }
+
+    @GetMapping("/rental/{id}")
+    public MessageEntity getRentalById(@PathVariable Long id) {
+        return messageService.getRentalById(id);
+    }
+
     @PostMapping
     public MessageEntity createMessage(@RequestBody MessageEntity message) {
         return messageService.createMessage(message);
