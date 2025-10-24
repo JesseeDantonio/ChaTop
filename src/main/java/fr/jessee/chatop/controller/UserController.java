@@ -21,7 +21,6 @@ public class UserController {
     // Route POST /api/locations
     @PostMapping
     public String createUser(@RequestBody String location) {
-        // Ici tu peux traiter la création d'une nouvelle location
         return "Utilisateur créé : " + location;
     }
 
