@@ -1,38 +1,43 @@
 package fr.jessee.chatop.controller;
 
-import org.springframework.stereotype.Component;
+import fr.jessee.chatop.entity.UserEntity;
+import fr.jessee.chatop.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@Component
+
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
+    private final UserService userService;
     // Route GET /api/users
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping
-    public String getAllUsers() {
-        return "Liste de tous les utilisateurs";
+    public List<UserEntity> getAllUsers() {
+        return userService.getAllUsers();
     }
 
-    // Route GET /api/users/{id}
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable Long id) {
-        return "Détail de l'utilisateur avec l'id " + id;
+    public UserEntity getUserById(@PathVariable Integer id) {
+        return userService.getUserById(id);
     }
 
-    // Route POST /api/users
     @PostMapping
-    public String createUser(@RequestBody String location) {
-        return "Utilisateur créé : " + location;
+    public UserEntity createUser(@RequestBody UserEntity user) {
+        return userService.createUser(user);
     }
 
-    // Route PUT /api/users/{id}
     @PutMapping("/{id}")
-    public String updateUser(@PathVariable Long id, @RequestBody String location) {
-        return "Utilisateur modifié : " + location;
+    public UserEntity updateUser(@PathVariable Integer id, @RequestBody UserEntity user) {
+        return userService.updateUser(id, user);
     }
 
-    // Route DELETE /api/users/{id}
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        return "Utilisateur supprimé avec l'id " + id;
+    public void deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
     }
 }
