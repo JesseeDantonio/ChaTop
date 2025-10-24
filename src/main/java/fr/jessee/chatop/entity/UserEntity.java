@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 @Entity
 public class UserEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,7 +19,7 @@ public class UserEntity {
 
     private String password;
 
-    private String created_at;
+    private String createdAt;
 
-    private String updated_at;
+    private String updatedAt;
 }
