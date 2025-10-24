@@ -38,7 +38,6 @@ public class MessageService {
         MessageEntity existingMessage = messageRepository.findById(id).orElse(null);
         if (existingMessage != null) {
             existingMessage.setMessage(message.getMessage());
-            existingMessage.setCreatedAt(message.getCreatedAt());
             existingMessage.setUpdatedAt(message.getUpdatedAt());
             return messageRepository.save(existingMessage);
         } else {
