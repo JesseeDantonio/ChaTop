@@ -1,9 +1,6 @@
 package fr.jessee.chatop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -23,7 +20,9 @@ public class RentalEntity {
 
     private String description;
 
-    private int ownerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private UserEntity ownerId;
 
     private String createdAt;
 
