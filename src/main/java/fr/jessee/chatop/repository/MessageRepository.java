@@ -4,7 +4,7 @@ import fr.jessee.chatop.entity.MessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer> {
-    MessageEntity findByUserId(Long userId);
+    MessageEntity findByRentalId(int rentalId);
 
-    MessageEntity findByRentalId(Long id);
+    MessageEntity findByUserId(int userId);
 }

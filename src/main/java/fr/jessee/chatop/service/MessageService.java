@@ -18,11 +18,11 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public MessageEntity getRentalById(Long id) {
+    public MessageEntity getRentalById(int id) {
         return messageRepository.findByRentalId(id);
     }
 
-    public MessageEntity getUserById(Long id) {
+    public MessageEntity getUserById(int id) {
         return messageRepository.findByUserId(id);
     }
 

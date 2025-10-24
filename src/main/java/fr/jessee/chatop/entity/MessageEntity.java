@@ -11,11 +11,11 @@ import lombok.Data;
 public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    private Long rentalId;
+    private int rentalId;
 
-    private Long userId;
+    private int userId;
 
     private String message;
 

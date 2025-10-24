@@ -26,12 +26,12 @@ public class MessageController {
     }
 
     @GetMapping("/user/{id}")
-    public MessageEntity getUserById(@PathVariable Long id) {
+    public MessageEntity getUserById(@PathVariable int id) {
         return messageService.getUserById(id);
     }
 
     @GetMapping("/rental/{id}")
-    public MessageEntity getRentalById(@PathVariable Long id) {
+    public MessageEntity getRentalById(@PathVariable int id) {
         return messageService.getRentalById(id);
     }
 
