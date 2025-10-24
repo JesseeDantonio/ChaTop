@@ -10,33 +10,38 @@ import java.util.List;
 @RequestMapping("/api/rentals")
 public class RentalController {
     private final RentalService rentalService;
-    // Route GET /api/rentals
+
     public RentalController(RentalService rentalService) {
         this.rentalService = rentalService;
     }
 
+    // GET /api/rentals
     @GetMapping
     public List<RentalEntity> getAllRentals() {
         return rentalService.getAllRentals();
     }
 
+    // GET /api/rentals/{id}
     @GetMapping("/{id}")
-    public RentalEntity getOwnerById(@PathVariable Integer id) {
-        return rentalService.getOwnerById(id);
+    public RentalEntity getRentalById(@PathVariable int id) {
+        return rentalService.getById(id);
     }
 
+    // POST /api/rentals
     @PostMapping
-    public RentalEntity createRental(@RequestBody RentalEntity user) {
-        return rentalService.createRental(user);
+    public RentalEntity createRental(@RequestBody RentalEntity rental) {
+        return rentalService.createRental(rental);
     }
 
+    // PUT /api/rentals/{id}
     @PutMapping("/{id}")
-    public RentalEntity updateRental(@PathVariable Integer id, @RequestBody RentalEntity user) {
-        return rentalService.updateRental(id, user);
+    public RentalEntity updateRental(@PathVariable int id, @RequestBody RentalEntity rental) {
+        return rentalService.updateRental(id, rental);
     }
 
+    // DELETE /api/rentals/{id}
     @DeleteMapping("/{id}")
-    public void deleteRental(@PathVariable Integer id) {
+    public void deleteRental(@PathVariable int id) {
         rentalService.deleteRental(id);
     }
 }

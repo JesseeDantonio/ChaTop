@@ -15,16 +15,16 @@ public class RentalService {
         this.rentalRepository = rentalRepository;
     }
 
+    public RentalEntity getById(int id) {
+        return rentalRepository.findById(id).orElse(null);
+    }
+
     public List<RentalEntity> getAllRentals() {
         return rentalRepository.findAll();
     }
 
     public RentalEntity getOwnerById(Integer id) {
         return rentalRepository.findById(id).orElse(null);
-    }
-
-    public RentalEntity getRentalById(Long id) {
-        return rentalRepository.findById(id);
     }
 
     public RentalEntity createRental(RentalEntity message) {

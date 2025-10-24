@@ -11,13 +11,21 @@ import lombok.Data;
 public class RentalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
     private String name;
+
     private Double surface;
+
     private Double price;
+
     private String picture;
+
     private String description;
-    private Long ownerId;
+
+    private int ownerId;
+
     private String createdAt;
+
     private String updatedAt;
 }
