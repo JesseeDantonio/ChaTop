@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -18,12 +20,26 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserEntity> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers() {
+        List<UserEntity> users = userRepository.findAll();
+        List<UserDTO> userDTOList = new ArrayList<>();
+        for (UserEntity user : users) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setName(user.getName());
+            userDTO.setEmail(user.getEmail());
+
+            userDTOList.add(userDTO);
+        }
+        return userDTOList;
     }
 
-    public UserEntity getUserById(Integer id) {
-        return userRepository.findById(id).orElse(null);
+    public UserDTO getUserById(Integer id) {
+        Optional<UserEntity> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return toDTO(user.get());
     }
 
     public UserCreateDTO createUser(UserCreateDTO user) {

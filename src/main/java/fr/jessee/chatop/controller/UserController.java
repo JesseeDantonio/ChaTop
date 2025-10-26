@@ -2,7 +2,6 @@ package fr.jessee.chatop.controller;
 
 import fr.jessee.chatop.dto.in.UserCreateDTO;
 import fr.jessee.chatop.dto.out.UserDTO;
-import fr.jessee.chatop.entity.UserEntity;
 import fr.jessee.chatop.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +18,12 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserEntity> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public UserEntity getUserById(@PathVariable Integer id) {
+    public UserDTO getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
