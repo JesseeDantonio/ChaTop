@@ -1,5 +1,7 @@
 package fr.jessee.chatop.controller;
 
+import fr.jessee.chatop.dto.in.UserCreateDTO;
+import fr.jessee.chatop.dto.out.UserDTO;
 import fr.jessee.chatop.entity.UserEntity;
 import fr.jessee.chatop.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping
-    public UserEntity createUser(@RequestBody UserEntity user) {
-        return userService.createUser(user);
+    public UserEntity createUser(@RequestBody UserCreateDTO userDto) {
+        return userService.createUser(userDto);
     }
 
     @PutMapping("/{id}")
