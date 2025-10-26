@@ -29,13 +29,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserEntity createUser(@RequestBody UserCreateDTO userDto) {
+    public UserCreateDTO createUser(@RequestBody UserCreateDTO userDto) {
         return userService.createUser(userDto);
     }
 
     @PutMapping("/{id}")
-    public UserEntity updateUser(@PathVariable Integer id, @RequestBody UserEntity user) {
-        return userService.updateUser(id, user);
+    public UserDTO updateUser(@PathVariable Integer id, @RequestBody UserCreateDTO userDto) {
+        return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping("/{id}")

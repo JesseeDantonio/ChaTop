@@ -26,18 +26,20 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public UserEntity createUser(UserCreateDTO user) {
-        return userRepository.save(toEntity(user));
+    public UserCreateDTO createUser(UserCreateDTO user) {
+        userRepository.save(toEntity(user));
+        return user;
     }
 
-    public UserEntity updateUser(Integer id, UserEntity user) {
+    public UserDTO updateUser(Integer id, UserCreateDTO user) {
         UserEntity existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
             existingUser.setEmail(user.getEmail());
             existingUser.setName(user.getName());
             existingUser.setPassword(user.getPassword());
             existingUser.setUpdatedAt(LocalDate.now().toString());
-            return userRepository.save(existingUser);
+            userRepository.save(existingUser);
+            return toDTO(existingUser);
         } else {
             return null;
         }
