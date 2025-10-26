@@ -1,5 +1,8 @@
 package fr.jessee.chatop.dto;
 
+import lombok.Data;
+
+@Data
 public class RentalDTO {
     private Integer id;
     private String name;
