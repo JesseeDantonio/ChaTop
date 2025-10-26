@@ -1,4 +1,4 @@
-package fr.jessee.chatop.dto;
+package fr.jessee.chatop.dto.out;
 
 import lombok.Data;
 
