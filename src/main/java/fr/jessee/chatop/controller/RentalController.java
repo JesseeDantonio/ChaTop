@@ -19,13 +19,13 @@ public class RentalController {
 
     // GET /api/rentals
     @GetMapping
-    public List<RentalEntity> getAllRentals() {
+    public List<RentalDTO> getAllRentals() {
         return rentalService.getAllRentals();
     }
 
     // GET /api/rentals/{id}
     @GetMapping("/{id}")
-    public RentalEntity getRentalById(@PathVariable int id) {
+    public RentalDTO getRentalById(@PathVariable int id) {
         return rentalService.getById(id);
     }
 
