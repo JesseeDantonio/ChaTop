@@ -1,5 +1,7 @@
 package fr.jessee.chatop.controller;
 
+import fr.jessee.chatop.dto.in.RentalCreateDTO;
+import fr.jessee.chatop.dto.out.RentalDTO;
 import fr.jessee.chatop.entity.RentalEntity;
 import fr.jessee.chatop.service.RentalService;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +31,13 @@ public class RentalController {
 
     // POST /api/rentals
     @PostMapping
-    public RentalEntity createRental(@RequestBody RentalEntity rental) {
+    public RentalCreateDTO createRental(@RequestBody RentalCreateDTO rental) {
         return rentalService.createRental(rental);
     }
 
     // PUT /api/rentals/{id}
     @PutMapping("/{id}")
-    public RentalEntity updateRental(@PathVariable int id, @RequestBody RentalEntity rental) {
+    public RentalDTO updateRental(@PathVariable int id, @RequestBody RentalEntity rental) {
         return rentalService.updateRental(id, rental);
     }
 
