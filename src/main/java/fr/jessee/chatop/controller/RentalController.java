@@ -37,7 +37,7 @@ public class RentalController {
 
     // PUT /api/rentals/{id}
     @PutMapping("/{id}")
-    public RentalDTO updateRental(@PathVariable int id, @RequestBody RentalEntity rental) {
+    public RentalDTO updateRental(@PathVariable int id, @RequestBody RentalDTO rental) {
         return rentalService.updateRental(id, rental);
     }
 
