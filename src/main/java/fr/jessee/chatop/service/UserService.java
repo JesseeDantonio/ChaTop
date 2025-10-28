@@ -5,7 +5,6 @@ import fr.jessee.chatop.dto.out.UserDTO;
 import fr.jessee.chatop.entity.UserEntity;
 import fr.jessee.chatop.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class UserService {
             userDTO.setId(user.getId());
             userDTO.setName(user.getName());
             userDTO.setEmail(user.getEmail());
-
             userDTOList.add(userDTO);
         }
         return userDTOList;
