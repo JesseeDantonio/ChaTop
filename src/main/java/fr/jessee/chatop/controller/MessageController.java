@@ -1,5 +1,6 @@
 package fr.jessee.chatop.controller;
 
+import fr.jessee.chatop.dto.in.MessageCreateDTO;
 import fr.jessee.chatop.entity.MessageEntity;
 import fr.jessee.chatop.service.MessageService;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class MessageController {
     }
 
     @PostMapping
-    public MessageEntity createMessage(@RequestBody MessageEntity message) {
+    public MessageCreateDTO createMessage(@RequestBody MessageEntity message) {
         return messageService.createMessage(message);
     }
 
