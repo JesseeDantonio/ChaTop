@@ -1,6 +1,6 @@
-# 🏡 Chatop - API Backend (Spring Boot)
+# 🚀 Mon Application ChaTop
 
-Ce projet correspond à la partie **backend** de l’application de location immobilière Chatop, à réaliser en Java avec **Spring Boot**.
+Bienvenue dans le projet ChaTop **Spring Boot** !
 Il a pour objectif de valider le troisième projet chez OpenClassrooms.
 ---
 
