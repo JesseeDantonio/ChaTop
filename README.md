@@ -16,14 +16,6 @@ Développer une API REST sécurisée permettant :
 
 ---
 
-## 📁 Ce que vous trouverez dans ce repo
-
-- **Environnement Mockoon** (pour simuler l’API lors du développement front)
-- **Collection Postman** (pour tester vos endpoints)
-- **Schéma de base de données** (fichier `.sql`)
-
----
-
 ## ⚙️ Prérequis
 
 - Java 17+
@@ -36,7 +28,7 @@ Développer une API REST sécurisée permettant :
 
 1. **Clonez le projet**
     ```bash
-    git clone https://github.com/votre-organisation/chatop-backend.git
+    git clone https://github.com/JesseeDantonio/Chatop-API-Backend.git
     cd chatop-backend
     ```
 
