@@ -2,14 +2,19 @@ package fr.jessee.chatop.service;
 
 import fr.jessee.chatop.dto.in.MessageCreateDTO;
 import fr.jessee.chatop.dto.out.MessageDTO;
+import fr.jessee.chatop.dto.out.RentalDTO;
 import fr.jessee.chatop.entity.MessageEntity;
 import fr.jessee.chatop.entity.RentalEntity;
 import fr.jessee.chatop.entity.UserEntity;
 import fr.jessee.chatop.repository.MessageRepository;
 import fr.jessee.chatop.repository.RentalRepository;
 import fr.jessee.chatop.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,20 +29,45 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public List<MessageEntity> getAllMessages() {
-        return messageRepository.findAll();
+    public MessageDTO getById(int id) {
+        MessageEntity rental = messageRepository.findById(id).orElse(null);
+        if (rental != null) {
+            return toDTO(rental);
+        }
+        return null;
     }
 
-    public MessageEntity getRentalById(int id) {
-        return messageRepository.findByRentalId(id);
+    public List<MessageDTO> getAllMessages() {
+        List<MessageEntity> entities = messageRepository.findAll();
+        MessageDTO dto = new MessageDTO();
+        List<MessageDTO> dtos = new ArrayList<>();
+        entities.forEach(entity -> {
+            dto.setId(entity.getId());
+            dto.setTimestamp(entity.getTimestamp());
+            dto.setMessage(entity.getMessage());
+            dto.setReceiverId((long) entity.getRentalId().getId());
+            dto.setSenderId(entity.getUserId().getId());
+            dtos.add(dto);
+        });
+
+        return dtos;
     }
 
-    public MessageEntity getUserById(int id) {
+    public List<MessageEntity> getRentalById(int id) {
+         return messageRepository.findByRentalId(id);
+    }
+
+    public List<MessageEntity> getUserById(int id) {
         return messageRepository.findByUserId(id);
     }
 
-    public MessageEntity getMessageById(Integer id) {
-        return messageRepository.findById(id).orElse(null);
+    public MessageDTO getMessageById(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id must not be null");
+        }
+        return messageRepository.findById(id)
+                .map(this::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Message not found with id: " + id));
     }
 
     public MessageCreateDTO createMessage(MessageCreateDTO message) {
@@ -45,12 +75,13 @@ public class MessageService {
         return message;
     }
 
-    public MessageEntity updateMessage(Integer id, MessageEntity message) {
+    public MessageDTO updateMessage(Integer id, MessageDTO message) {
         MessageEntity existingMessage = messageRepository.findById(id).orElse(null);
         if (existingMessage != null) {
             existingMessage.setMessage(message.getMessage());
-            existingMessage.setUpdatedAt(message.getUpdatedAt());
-            return messageRepository.save(existingMessage);
+            existingMessage.setUpdatedAt(LocalDate.now().toString());
+            messageRepository.save(existingMessage);
+            return toDTO(existingMessage);
         } else {
             return null;
         }
@@ -60,19 +91,19 @@ public class MessageService {
         messageRepository.deleteById(id);
     }
 
-    private MessageDTO toDTO(MessageDTO entity) {
+    private MessageDTO toDTO(MessageEntity entity) {
         MessageDTO dto = new MessageDTO();
         dto.setId(entity.getId());
-        dto.setContent(entity.getContent());
-        dto.setReceiverId(entity.getReceiverId());
-        dto.setSenderId(entity.getSenderId());
+        dto.setMessage(entity.getMessage());
+        dto.setTimestamp(entity.getTimestamp());
+        dto.setReceiverId((long) entity.getRentalId().getId());
+        dto.setSenderId(entity.getUserId().getId());
         return dto;
     }
 
     public MessageEntity toEntity(MessageCreateDTO dto) {
         MessageEntity entity = new MessageEntity();
-        entity.setMessage(dto.getContent());
-
+        entity.setMessage(dto.getMessage());
         UserEntity user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         RentalEntity rental = rentalRepository.findById(dto.getRentalId())
@@ -80,7 +111,9 @@ public class MessageService {
 
         entity.setUserId(user);
         entity.setRentalId(rental);
-        entity.setTimestamp(dto.getTimestamp());
+        entity.setUpdatedAt(LocalDate.now().toString());
+        entity.setCreatedAt(LocalDate.now().toString());
+        entity.setTimestamp(Instant.now().toString());
         return entity;
     }
 }
