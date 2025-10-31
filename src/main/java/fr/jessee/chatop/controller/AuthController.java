@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
 
@@ -51,16 +52,6 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> me() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Cas où il n'y a pas d'utilisateur authentifié (pas de JWT ou JWT invalide)
-        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
-            Map<String, String> error = Map.of(
-                    "error", "Utilisateur non authentifié.",
-                    "details", "Aucun token ou token invalide."
-            );
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-        }
-
         try {
             String email = authentication.getName();
             UserDTO user = authService.me(email);
