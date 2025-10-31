@@ -1,6 +1,7 @@
 package fr.jessee.chatop.controller;
 
 import fr.jessee.chatop.dto.in.MessageCreateDTO;
+import fr.jessee.chatop.dto.out.MessageDTO;
 import fr.jessee.chatop.entity.MessageEntity;
 import fr.jessee.chatop.service.MessageService;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +18,25 @@ public class MessageController {
     }
 
     @GetMapping
-    public List<MessageEntity> getAllMessages() {
+    public List<MessageDTO> getAllMessages() {
         return messageService.getAllMessages();
     }
 
     @GetMapping("/{id}")
-    public MessageEntity getMessageById(@PathVariable Integer id) {
+    public MessageDTO getMessageById(@PathVariable Integer id) {
         return messageService.getMessageById(id);
     }
 
     @GetMapping("/user/{id}")
-    public MessageEntity getUserById(@PathVariable int id) {
+    public List<MessageEntity> getUserById(@PathVariable int id) {
         return messageService.getUserById(id);
     }
 
     @GetMapping("/rental/{id}")
-    public MessageEntity getRentalById(@PathVariable int id) {
+    public List<MessageEntity> getRentalById(@PathVariable int id) {
         return messageService.getRentalById(id);
     }
+
 
     @PostMapping
     public MessageCreateDTO createMessage(@RequestBody MessageCreateDTO message) {
@@ -42,8 +44,9 @@ public class MessageController {
     }
 
     @PutMapping("/{id}")
-    public MessageEntity updateMessage(@PathVariable Integer id, @RequestBody MessageEntity message) {
-        return messageService.updateMessage(id, message);
+    public MessageDTO updateMessage(@PathVariable Integer id, @RequestBody MessageDTO message) {
+        messageService.updateMessage(id, message);
+        return message;
     }
 
     @DeleteMapping("/{id}")
