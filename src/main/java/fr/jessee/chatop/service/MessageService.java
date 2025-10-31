@@ -1,9 +1,7 @@
 package fr.jessee.chatop.service;
 
 import fr.jessee.chatop.dto.in.MessageCreateDTO;
-import fr.jessee.chatop.dto.in.RentalCreateDTO;
 import fr.jessee.chatop.dto.out.MessageDTO;
-import fr.jessee.chatop.dto.out.RentalDTO;
 import fr.jessee.chatop.entity.MessageEntity;
 import fr.jessee.chatop.entity.RentalEntity;
 import fr.jessee.chatop.entity.UserEntity;
@@ -42,8 +40,9 @@ public class MessageService {
         return messageRepository.findById(id).orElse(null);
     }
 
-    public MessageCreateDTO createMessage(MessageEntity message) {
-        return messageRepository.save(toEntity(message));
+    public MessageCreateDTO createMessage(MessageCreateDTO message) {
+        messageRepository.save(toEntity(message));
+        return message;
     }
 
     public MessageEntity updateMessage(Integer id, MessageEntity message) {

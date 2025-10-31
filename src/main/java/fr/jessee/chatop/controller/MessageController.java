@@ -37,7 +37,7 @@ public class MessageController {
     }
 
     @PostMapping
-    public MessageCreateDTO createMessage(@RequestBody MessageEntity message) {
+    public MessageCreateDTO createMessage(@RequestBody MessageCreateDTO message) {
         return messageService.createMessage(message);
     }
 
