@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class MessageCreateDTO {
-    private String content;
+    private String message;
     private Integer userId;
     private Integer rentalId;
-    private String timestamp;
 }
