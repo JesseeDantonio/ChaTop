@@ -28,11 +28,13 @@ public class AuthService {
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepo;
+    private final JsonWebToken jsonWebToken;
 
-    public AuthService(UserRepository userRepo, PasswordEncoder passwordEncoder, RefreshTokenRepository refreshTokenRepo) {
+    public AuthService(UserRepository userRepo, PasswordEncoder passwordEncoder, RefreshTokenRepository refreshTokenRepo, JsonWebToken jsonWebToken) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.refreshTokenRepo = refreshTokenRepo;
+        this.jsonWebToken = jsonWebToken;
     }
 
     public TokenDTO register(UserCreateDTO userAuth) {
@@ -42,8 +44,8 @@ public class AuthService {
         }
 
         TokenDTO dto = new TokenDTO(
-                JsonWebToken.generateToken(userAuth.getName() , ACCESS_TOKEN_EXPIRATION),
-                JsonWebToken.generateToken(userAuth.getName() , REFRESH_TOKEN_EXPIRATION)
+                jsonWebToken.generateToken(userAuth.getName() , ACCESS_TOKEN_EXPIRATION),
+                jsonWebToken.generateToken(userAuth.getName() , REFRESH_TOKEN_EXPIRATION)
         );
 
         userAuth.setEmail(userAuth.getEmail());
@@ -79,8 +81,8 @@ public class AuthService {
             throw new RuntimeException("Mot de passe incorrect");
         }
 
-        String accessToken = JsonWebToken.generateToken(user.get().getEmail(), ACCESS_TOKEN_EXPIRATION);
-        String refreshTokenStr = JsonWebToken.generateToken(user.get().getEmail(), REFRESH_TOKEN_EXPIRATION);
+        String accessToken = jsonWebToken.generateToken(user.get().getEmail(), ACCESS_TOKEN_EXPIRATION);
+        String refreshTokenStr = jsonWebToken.generateToken(user.get().getEmail(), REFRESH_TOKEN_EXPIRATION);
 
         RefreshTokenEntity refreshToken = new RefreshTokenEntity();
         refreshToken.setUser(user.get());
