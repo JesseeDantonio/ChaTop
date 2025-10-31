@@ -3,6 +3,7 @@ package fr.jessee.chatop.feature;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -11,10 +12,16 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 public class JsonWebToken {
-    private static final String SECRET_KEY_STRING = "";
-    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes(StandardCharsets.UTF_8));
 
-    public static String generateToken(String username, long tokenExpiration) {
+    private final String SECRET_KEY_STRING;
+    private final SecretKey SECRET_KEY;
+
+    public JsonWebToken(String secretKeyString) {
+        this.SECRET_KEY_STRING = secretKeyString;
+        SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateToken(String username, long tokenExpiration) {
         Instant now = Instant.now();
         return Jwts.builder()
                 .claim("sub", username)
@@ -24,7 +31,7 @@ public class JsonWebToken {
                 .compact();
     }
 
-    public static boolean isSignatureValid(String token) {
+    public boolean isSignatureValid(String token) {
         try {
             Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token);
             return true;
@@ -33,11 +40,11 @@ public class JsonWebToken {
         }
     }
 
-    public static Claims getClaimsFromToken(String token) {
+    public Claims getClaimsFromToken(String token) {
         return Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token).getPayload();
     }
 
-    public static boolean isTokenValid(String token) {
+    public boolean isTokenValid(String token) {
         try {
             Claims claims = getClaimsFromToken(token);
 
