@@ -1,6 +1,7 @@
 package fr.jessee.chatop.service;
 
 import fr.jessee.chatop.dto.in.UserCreateDTO;
+import fr.jessee.chatop.dto.in.auth.UserAuthDTO;
 import fr.jessee.chatop.dto.out.UserDTO;
 import fr.jessee.chatop.dto.out.auth.TokenDTO;
 import fr.jessee.chatop.entity.RefreshTokenEntity;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -33,23 +35,25 @@ public class AuthService {
         this.refreshTokenRepo = refreshTokenRepo;
     }
 
-    public TokenDTO register(UserCreateDTO user) {
-        if (userRepo.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Email déjà utilisé");
+    public TokenDTO register(UserCreateDTO userAuth) {
+        Optional<UserEntity> user = userRepo.findByEmail(userAuth.getEmail());
+        if (user.isPresent()) {
+            throw new RuntimeException("Utilisateur déjà existant");
         }
+
         TokenDTO dto = new TokenDTO(
-                JsonWebToken.generateToken(user.getName() , ACCESS_TOKEN_EXPIRATION),
-                JsonWebToken.generateToken(user.getName() , REFRESH_TOKEN_EXPIRATION)
+                JsonWebToken.generateToken(userAuth.getName() , ACCESS_TOKEN_EXPIRATION),
+                JsonWebToken.generateToken(userAuth.getName() , REFRESH_TOKEN_EXPIRATION)
         );
 
-        user.setEmail(user.getEmail());
-        user.setName(user.getName());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userAuth.setEmail(userAuth.getEmail());
+        userAuth.setName(userAuth.getName());
+        userAuth.setPassword(passwordEncoder.encode(userAuth.getPassword()));
 
         UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(user.getEmail());
-        userEntity.setName(user.getName());
-        userEntity.setPassword(user.getPassword());
+        userEntity.setEmail(userAuth.getEmail());
+        userEntity.setName(userAuth.getName());
+        userEntity.setPassword(userAuth.getPassword());
         userEntity.setUpdatedAt(LocalDate.now().toString());
         userEntity.setCreatedAt(LocalDate.now().toString());
 
@@ -66,17 +70,20 @@ public class AuthService {
     }
 
 
-    public TokenDTO login(String email, String password) {
-        UserEntity user = userRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur inconnu"));
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+    public TokenDTO login(UserAuthDTO userAuth) {
+        Optional<UserEntity> user = userRepo.findByEmail(userAuth.getEmail());
+        if (user.isEmpty()) {
+            throw new RuntimeException("Utilisateur inconnu");
+        }
+        if (!passwordEncoder.matches(userAuth.getPassword(), user.get().getPassword())) {
             throw new RuntimeException("Mot de passe incorrect");
         }
 
-        String accessToken = JsonWebToken.generateToken(user.getEmail(), ACCESS_TOKEN_EXPIRATION);
-        String refreshTokenStr = JsonWebToken.generateToken(user.getEmail(), REFRESH_TOKEN_EXPIRATION);
+        String accessToken = JsonWebToken.generateToken(user.get().getEmail(), ACCESS_TOKEN_EXPIRATION);
+        String refreshTokenStr = JsonWebToken.generateToken(user.get().getEmail(), REFRESH_TOKEN_EXPIRATION);
 
         RefreshTokenEntity refreshToken = new RefreshTokenEntity();
-        refreshToken.setUser(user);
+        refreshToken.setUser(user.get());
         refreshToken.setToken(refreshTokenStr);
         refreshToken.setExpirationDate(Instant.now().plusMillis(REFRESH_TOKEN_EXPIRATION));
         refreshTokenRepo.save(refreshToken);
@@ -85,11 +92,14 @@ public class AuthService {
     }
 
     public UserDTO me(String email) {
-        UserEntity user = userRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("Utilisateur inconnu"));
+        Optional<UserEntity> user = userRepo.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new RuntimeException("Utilisateur inconnu");
+        }
         UserDTO userDTO = new UserDTO();
-        userDTO.setEmail(user.getEmail());
-        userDTO.setName(user.getName());
-        userDTO.setId(user.getId());
+        userDTO.setEmail(user.get().getEmail());
+        userDTO.setName(user.get().getName());
+        userDTO.setId(user.get().getId());
         return userDTO;
     }
 }
