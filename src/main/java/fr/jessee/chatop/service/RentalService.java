@@ -36,8 +36,8 @@ public class RentalService {
             RentalDTO dto = toDTO(rental);
             rentals.add(dto);
         });
-        return rentals;
 
+        return rentals;
     }
 
     public RentalCreateDTO createRental(RentalCreateDTO rental) {
@@ -53,7 +53,7 @@ public class RentalService {
             existingRental.setPrice(rental.getPrice());
             existingRental.setPicture(rental.getPicture());
             existingRental.setSurface(rental.getSurface());
-            UserEntity owner = userRepository.findById(rental.getOwnerId())
+            UserEntity owner = userRepository.findById(rental.getOwnerId().intValue())
                     .orElseThrow(() -> new RuntimeException("Owner not found"));
             existingRental.setOwnerId(owner);
             existingRental.setUpdatedAt(LocalDate.now().toString());
@@ -70,7 +70,7 @@ public class RentalService {
 
     private RentalDTO toDTO(RentalEntity entity) {
         RentalDTO dto = new RentalDTO();
-        dto.setId(entity.getId());
+        dto.setId((long) entity.getId());
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
         dto.setPrice(entity.getPrice());
@@ -89,6 +89,8 @@ public class RentalService {
         entity.setPicture(dto.getPicture());
         UserEntity owner = userRepository.findById(dto.getOwnerId())
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
+        entity.setUpdatedAt(LocalDate.now().toString());
+        entity.setCreatedAt(LocalDate.now().toString());
         entity.setOwnerId(owner);
         return entity;
     }
