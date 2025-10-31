@@ -21,7 +21,7 @@ public class RentalEntity {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "owner_id")
     private UserEntity ownerId;
 
     private String createdAt;
