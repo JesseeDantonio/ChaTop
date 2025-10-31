@@ -10,13 +10,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.util.Collections;
 
-@Component
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private final JsonWebToken jsonWebToken;
+
+    public JwtAuthenticationFilter(JsonWebToken jsonWebToken) {
+        super();
+        this.jsonWebToken = jsonWebToken;
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -25,8 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            if (JsonWebToken.isTokenValid(token)) {
-                Claims claims = JsonWebToken.getClaimsFromToken(token);
+            if (jsonWebToken.isTokenValid(token)) {
+                Claims claims = jsonWebToken.getClaimsFromToken(token);
                 String username = claims.getSubject(); // "sub"
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
