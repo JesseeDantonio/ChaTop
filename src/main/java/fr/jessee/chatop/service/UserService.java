@@ -27,6 +27,8 @@ public class UserService {
             userDTO.setId(user.getId());
             userDTO.setName(user.getName());
             userDTO.setEmail(user.getEmail());
+            userDTO.setUpdatedAt(user.getUpdatedAt());
+            userDTO.setCreatedAt(user.getCreatedAt());
             userDTOList.add(userDTO);
         }
         return userDTOList;
@@ -68,6 +70,8 @@ public class UserService {
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setEmail(entity.getEmail());
+        dto.setUpdatedAt(entity.getUpdatedAt());
+        dto.setCreatedAt(entity.getCreatedAt());
         return dto;
     }
 
