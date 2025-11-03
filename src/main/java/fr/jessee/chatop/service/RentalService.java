@@ -77,6 +77,8 @@ public class RentalService {
         dto.setSurface(entity.getSurface());
         dto.setOwnerId(entity.getOwnerId().getId());
         dto.setPicture(entity.getPicture());
+        dto.setUpdatedAt(entity.getUpdatedAt());
+        dto.setCreatedAt(entity.getCreatedAt());
         return dto;
     }
 
