@@ -80,6 +80,8 @@ public class UserService {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
+        entity.setUpdatedAt(LocalDate.now().toString());
+        entity.setCreatedAt(LocalDate.now().toString());
         return entity;
     }
 }
