@@ -102,6 +102,8 @@ public class AuthService {
         userDTO.setEmail(user.get().getEmail());
         userDTO.setName(user.get().getName());
         userDTO.setId(user.get().getId());
+        userDTO.setUpdatedAt(user.get().getUpdatedAt());
+        userDTO.setCreatedAt(user.get().getCreatedAt());
         return userDTO;
     }
 }
