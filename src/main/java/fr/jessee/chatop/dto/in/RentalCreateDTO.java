@@ -9,5 +9,5 @@ public class RentalCreateDTO {
     private Double price;
     private String picture;
     private String description;
-    private Integer ownerId;
+    private Long ownerId;
 }
