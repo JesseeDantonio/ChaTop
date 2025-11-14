@@ -44,8 +44,8 @@ public class AuthService {
         }
 
         TokenDTO dto = new TokenDTO(
-                jsonWebToken.generateToken(userAuth.getName() , ACCESS_TOKEN_EXPIRATION),
-                jsonWebToken.generateToken(userAuth.getName() , REFRESH_TOKEN_EXPIRATION)
+                jsonWebToken.generateToken(userAuth.getEmail() , ACCESS_TOKEN_EXPIRATION),
+                jsonWebToken.generateToken(userAuth.getEmail() , REFRESH_TOKEN_EXPIRATION)
         );
 
         userAuth.setEmail(userAuth.getEmail());
