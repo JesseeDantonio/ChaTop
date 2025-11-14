@@ -39,14 +39,15 @@ public class MessageService {
 
     public List<MessageDTO> getAllMessages() {
         List<MessageEntity> entities = messageRepository.findAll();
-        MessageDTO dto = new MessageDTO();
+
         List<MessageDTO> dtos = new ArrayList<>();
         entities.forEach(entity -> {
+            MessageDTO dto = new MessageDTO();
             dto.setId(entity.getId());
             dto.setTimestamp(entity.getTimestamp());
             dto.setMessage(entity.getMessage());
-            dto.setReceiverId((long) entity.getRentalId().getId());
-            dto.setSenderId(entity.getUserId().getId());
+            dto.setRentalId((long) entity.getRentalId().getId());
+            dto.setRentalId(entity.getUserId().getId());
             dtos.add(dto);
         });
 
@@ -96,12 +97,23 @@ public class MessageService {
         dto.setId(entity.getId());
         dto.setMessage(entity.getMessage());
         dto.setTimestamp(entity.getTimestamp());
-        dto.setReceiverId((long) entity.getRentalId().getId());
-        dto.setSenderId(entity.getUserId().getId());
+        dto.setRentalId((long) entity.getRentalId().getId());
+        dto.setUserId(entity.getUserId().getId());
         return dto;
     }
 
     public MessageEntity toEntity(MessageCreateDTO dto) {
+
+        if (dto == null) {
+            throw new IllegalArgumentException("Le message ne doit pas être null");
+        }
+        if (dto.getUserId() == null) {
+            throw new IllegalArgumentException("userId ne doit pas être null");
+        }
+        if (dto.getRentalId() == null) {
+            throw new IllegalArgumentException("rentalId ne doit pas être null");
+        }
+
         MessageEntity entity = new MessageEntity();
         entity.setMessage(dto.getMessage());
         UserEntity user = userRepository.findById(dto.getUserId())
